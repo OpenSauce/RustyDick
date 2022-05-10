@@ -1,2 +1,2 @@
-# Dickbot-Rust
-Dickbot of the rust variety.
+# Rusty Dick
+Dickbot of the Rust variety.
