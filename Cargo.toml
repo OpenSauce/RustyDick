@@ -9,3 +9,4 @@ edition = "2021"
 serenity = {default-features = false, features = ["client", "gateway", "rustls_backend", "model"] }
 tokio = { version = "1.18.2", features = ["full"] }
 dotenv = "0.15.0"
+chrono = "0.4"
