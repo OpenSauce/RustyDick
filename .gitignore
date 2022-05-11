@@ -11,6 +11,8 @@ Cargo.lock
 
 .env
 
+rusty.log
+
 # Added by cargo
 
 /target
