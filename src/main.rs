@@ -1,8 +1,10 @@
+use std::collections::HashSet;
 use std::env;
 
 use chrono::{DateTime, Duration, Utc};
 use dotenv;
 use serenity::async_trait;
+use serenity::http::Http;
 use serenity::model::channel::Message;
 use serenity::model::gateway::Activity;
 use serenity::model::gateway::Ready;
@@ -61,6 +63,18 @@ async fn main() {
         Err(_e) => {
             token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
         }
+    };
+
+    let http = Http::new(&token);
+
+    let (owners, _bot_id) = match http.get_current_application_info().await {
+        Ok(info) => {
+            let mut owners = HashSet::new();
+            owners.insert(info.owner.id);
+
+            (owners, info.id)
+        }
+        Err(e) => panic!("Could not retrieve bot information {}", e),
     };
 
     // Set gateway intents, which decides what events the bot will be notified about
