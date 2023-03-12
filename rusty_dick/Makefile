@@ -5,3 +5,5 @@ run:
 stop:
 	kill -9 `cat save_pid.txt`
 	rm save_pid.txt
+
+restart: stop run

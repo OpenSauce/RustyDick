@@ -75,13 +75,13 @@ async fn call_chatgpt(query: String) -> Result<String, String> {
         .await
     {
         Ok(resp) => match resp.status() {
-            reqwest::StatusCode::OK => Ok(resp.text().await.unwrap()),
+            reqwest::StatusCode::OK => return Ok(resp.text().await.unwrap()),
             reqwest::StatusCode::UNAUTHORIZED => {
                 return Err(String::from("Unauthorized, refresh token?"))
             }
             _ => return Err(String::from("An error has occurred.")),
         },
-        Err(_) => return Err(String::from("Error contacting server")),
+        Err(_) => return Err(String::from("Unable to contact ChatGPT server.")),
     }
 }
 
