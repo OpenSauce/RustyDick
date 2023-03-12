@@ -27,9 +27,8 @@ impl EventHandler for Handler {
             return;
         }
 
-        msg.react(&ctx, '🔎').await.unwrap();
-
         if msg.content.starts_with(".chatgpt") {
+            msg.react(&ctx, '🔎').await.unwrap();
             let query = msg.content.split_at(9).1;
             match call_chatgpt(query.to_owned()).await {
                 Ok(v) => {
