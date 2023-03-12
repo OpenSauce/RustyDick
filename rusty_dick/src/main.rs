@@ -36,15 +36,17 @@ impl EventHandler for Handler {
                     if let Err(why) = msg.reply(&ctx, v).await {
                         println!("Error getting chatGPT response: {:?}", why);
                     }
+                    msg.react(&ctx, '✅').await.unwrap();
                 }
                 Err(e) => {
                     let m = e.as_str().to_owned();
                     if let Err(why) = msg.channel_id.say(&ctx, m).await {
                         println!("Error getting chatGPT response: {:?}", why);
                     }
+                    msg.react(&ctx, '❌').await.unwrap();
                 }
             };
-            msg.react(&ctx, '✅').await.unwrap();
+
             return;
         }
 
@@ -66,19 +68,21 @@ impl EventHandler for Handler {
 
 async fn call_chatgpt(query: String) -> Result<String, String> {
     let new_query = ChatGPTRequest { query: query };
-    let resp = reqwest::Client::new()
+    match reqwest::Client::new()
         .post("http://localhost:3000/")
         .json(&new_query)
         .send()
         .await
-        .unwrap();
-
-    if resp.status() == reqwest::StatusCode::UNAUTHORIZED {
-        return Err(String::from("Unauthorized, refresh token?"));
+    {
+        Ok(resp) => match resp.status() {
+            reqwest::StatusCode::OK => Ok(resp.text().await.unwrap()),
+            reqwest::StatusCode::UNAUTHORIZED => {
+                return Err(String::from("Unauthorized, refresh token?"))
+            }
+            _ => return Err(String::from("An error has occurred.")),
+        },
+        Err(_) => return Err(String::from("Error contacting server")),
     }
-
-    let res = resp.text().await.unwrap();
-    Ok(res)
 }
 
 #[tokio::main]
