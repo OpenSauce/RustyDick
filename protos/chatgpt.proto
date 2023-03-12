@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+service GPTService {
+    rpc GetGPTSentence (GetGPTSentenceRequest) returns (GetGPTSentenceResponse) {}
+}
+
+message GetGPTSentenceRequest {
+  string query = 1;
+}
+
+message GetGPTSentenceResponse {
+    string response = 1;
+  }

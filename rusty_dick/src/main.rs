@@ -1,8 +1,8 @@
 use std::collections::HashSet;
 use std::env;
 
-use chrono::{DateTime, Duration, Utc};
 use dotenv;
+use serde::{Deserialize, Serialize};
 use serenity::async_trait;
 use serenity::http::Http;
 use serenity::model::channel::Message;
@@ -10,47 +10,79 @@ use serenity::model::gateway::Activity;
 use serenity::model::gateway::Ready;
 use serenity::prelude::*;
 
+#[derive(Debug, Serialize, Deserialize)]
+struct ChatGPTRequest {
+    query: String,
+}
+
 struct Handler;
 
 #[async_trait]
 impl EventHandler for Handler {
-    // Set a handler for the `message` event - so that whenever a new message
-    // is received - the closure (or function) passed will be called.
-    //
-    // Event handlers are dispatched through a threadpool, and so multiple
-    // events can be dispatched simultaneously.
     async fn message(&self, ctx: Context, msg: Message) {
-        ctx.set_activity(Activity::watching(msg.author.name)).await;
+        ctx.set_activity(Activity::watching(msg.to_owned().author.name))
+            .await;
 
-        if msg.content == "!ping" {
-            // Sending a message can fail, due to a network error, an
-            // authentication error, or lack of permissions to post in the
-            // channel, so log to stdout when some error happens, with a
-            // description of it.
-            if let Err(why) = msg.channel_id.say(&ctx.http, "Pong!").await {
-                println!("Error sending message: {:?}", why);
+        if !msg.content.starts_with(".") && !msg.content.starts_with("!") {
+            return;
+        }
+
+        msg.react(&ctx, '🔎').await.unwrap();
+
+        if msg.content.starts_with(".chatgpt") {
+            let query = msg.content.split_at(9).1;
+            match call_chatgpt(query.to_owned()).await {
+                Ok(v) => {
+                    if let Err(why) = msg.reply(&ctx, v).await {
+                        println!("Error getting chatGPT response: {:?}", why);
+                    }
+                }
+                Err(e) => {
+                    let m = e.as_str().to_owned();
+                    if let Err(why) = msg.channel_id.say(&ctx, m).await {
+                        println!("Error getting chatGPT response: {:?}", why);
+                    }
+                }
+            };
+            msg.react(&ctx, '✅').await.unwrap();
+            return;
+        }
+
+        match msg.content.as_str() {
+            "!ping" => {
+                if let Err(why) = msg.channel_id.say(ctx, "Pong!").await {
+                    println!("Error sending message: {:?}", why);
+                }
             }
+            _ => println!("Command not found"),
         }
     }
 
-    // let start = Instant::now()
-    // let duration = start.elapsed()
-
-    // Set a handler to be called on the `ready` event. This is called when a
-    // shard is booted, and a READY payload is sent by Discord. This payload
-    // contains data like the current user's guild Ids, current user data,
-    // private channels, and more.
-    //
-    // In this case, just print what the current user's username is.
     async fn ready(&self, ctx: Context, ready: Ready) {
         println!("{} is connected!", ready.user.name);
         ctx.set_activity(Activity::watching("Rusty Anime")).await;
     }
 }
 
+async fn call_chatgpt(query: String) -> Result<String, String> {
+    let new_query = ChatGPTRequest { query: query };
+    let resp = reqwest::Client::new()
+        .post("http://localhost:3000/")
+        .json(&new_query)
+        .send()
+        .await
+        .unwrap();
+
+    if resp.status() == reqwest::StatusCode::UNAUTHORIZED {
+        return Err(String::from("Unauthorized, refresh token?"));
+    }
+
+    let res = resp.text().await.unwrap();
+    Ok(res)
+}
+
 #[tokio::main]
 async fn main() {
-    // Lets check the dotenv.
     dotenv::dotenv().ok();
     let key = "DISCORD_TOKEN";
 
@@ -67,7 +99,7 @@ async fn main() {
 
     let http = Http::new(&token);
 
-    let (owners, _bot_id) = match http.get_current_application_info().await {
+    let (_owners, _bot_id) = match http.get_current_application_info().await {
         Ok(info) => {
             let mut owners = HashSet::new();
             owners.insert(info.owner.id);
