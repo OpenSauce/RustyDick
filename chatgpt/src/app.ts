@@ -1,30 +1,19 @@
-import express from 'express';
 import * as dotenv from 'dotenv';
 dotenv.config()
 
-import { ChatGPTUnofficialProxyAPI } from 'chatgpt'
-
+import express from 'express';
 import parser from 'body-parser';
+import { startChatGPT, messageChatGPT } from './chatgpt.js';
 
 const app = express();
 const port = 3000;
 
 app.use(parser.json())
 
-async function messageChatGPT(query: string): Promise<String> {
-    const api = new ChatGPTUnofficialProxyAPI({
-        accessToken: process.env.OPENAI_ACCESS_TOKEN,
-        apiReverseProxyUrl: 'https://bypass.duti.tech/api/conversation'
-    })
-
-    return api.sendMessage(query)
-        .then(res => {
-            return res.text
-        })
-        .catch(err => {
-            return Promise.reject(err);
-        })
-}
+app.listen(port, () => {
+    startChatGPT(process.env.OPENAI_ACCESS_TOKEN)
+    return console.log(`Express is listening at http://localhost:${port}`);
+});
 
 app.post('/', (req, res) => {
     messageChatGPT(req.body.query).then(result => {
@@ -37,8 +26,4 @@ app.post('/', (req, res) => {
 
         res.sendStatus(500);
     });
-});
-
-app.listen(port, () => {
-    return console.log(`Express is listening at http://localhost:${port}`);
 });

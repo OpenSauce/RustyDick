@@ -31,25 +31,25 @@ impl EventHandler for Handler {
             msg.react(&ctx, '🔎').await.unwrap();
             let query = msg.content.split_at(9).1;
             match call_chatgpt(query).await {
-                Ok(v) => {
-                    if v.len() >= 2000 {
-                        let v = v.split_at(1999);
-                        if let Err(why) = msg.reply(&ctx, v.0).await {
-                            println!("Error getting chatGPT response: {:?}", why);
+                Ok(response) => {
+                    if response.len() >= 2000 {
+                        let response = response.split_at(1999);
+                        if let Err(why) = msg.reply(&ctx, response.0).await {
+                            println!("Error sending message: {:?}", why);
                         }
-                        if let Err(why) = msg.reply(&ctx, v.1).await {
-                            println!("Error getting chatGPT response: {:?}", why);
+                        if let Err(why) = msg.reply(&ctx, response.1).await {
+                            println!("Error sending message: {:?}", why);
                         }
                     } else {
-                        if let Err(why) = msg.reply(&ctx, v).await {
-                            println!("Error getting chatGPT response: {:?}", why);
+                        if let Err(why) = msg.reply(&ctx, response).await {
+                            println!("Error sending message: {:?}", why);
                         }
                     }
                     msg.react(&ctx, '✅').await.unwrap();
                 }
                 Err(e) => {
                     if let Err(why) = msg.channel_id.say(&ctx, e).await {
-                        println!("Error getting chatGPT response: {:?}", why);
+                        println!("Error sending message: {:?}", why);
                     }
                     msg.react(&ctx, '❌').await.unwrap();
                 }
