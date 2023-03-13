@@ -11,7 +11,7 @@ const port = 3000;
 
 app.use(parser.json())
 
-async function example(query: string): Promise<String> {
+async function messageChatGPT(query: string): Promise<String> {
     const api = new ChatGPTUnofficialProxyAPI({
         accessToken: process.env.OPENAI_ACCESS_TOKEN,
         apiReverseProxyUrl: 'https://bypass.duti.tech/api/conversation'
@@ -27,7 +27,7 @@ async function example(query: string): Promise<String> {
 }
 
 app.post('/', (req, res) => {
-    example(req.body.query).then(result => {
+    messageChatGPT(req.body.query).then(result => {
         res.send(result);
     }).catch(err => {
         if (err.statusCode != null) {

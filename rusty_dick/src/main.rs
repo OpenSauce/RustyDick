@@ -30,16 +30,25 @@ impl EventHandler for Handler {
         if msg.content.starts_with(".chatgpt") {
             msg.react(&ctx, '🔎').await.unwrap();
             let query = msg.content.split_at(9).1;
-            match call_chatgpt(query.to_owned()).await {
+            match call_chatgpt(query).await {
                 Ok(v) => {
-                    if let Err(why) = msg.reply(&ctx, v).await {
-                        println!("Error getting chatGPT response: {:?}", why);
+                    if v.len() >= 2000 {
+                        let v = v.split_at(1999);
+                        if let Err(why) = msg.reply(&ctx, v.0).await {
+                            println!("Error getting chatGPT response: {:?}", why);
+                        }
+                        if let Err(why) = msg.reply(&ctx, v.1).await {
+                            println!("Error getting chatGPT response: {:?}", why);
+                        }
+                    } else {
+                        if let Err(why) = msg.reply(&ctx, v).await {
+                            println!("Error getting chatGPT response: {:?}", why);
+                        }
                     }
                     msg.react(&ctx, '✅').await.unwrap();
                 }
                 Err(e) => {
-                    let m = e.as_str().to_owned();
-                    if let Err(why) = msg.channel_id.say(&ctx, m).await {
+                    if let Err(why) = msg.channel_id.say(&ctx, e).await {
                         println!("Error getting chatGPT response: {:?}", why);
                     }
                     msg.react(&ctx, '❌').await.unwrap();
@@ -65,8 +74,10 @@ impl EventHandler for Handler {
     }
 }
 
-async fn call_chatgpt(query: String) -> Result<String, String> {
-    let new_query = ChatGPTRequest { query: query };
+async fn call_chatgpt(query: &str) -> Result<String, &str> {
+    let new_query = ChatGPTRequest {
+        query: query.to_owned(),
+    };
     match reqwest::Client::new()
         .post("http://localhost:3000/")
         .json(&new_query)
@@ -75,12 +86,10 @@ async fn call_chatgpt(query: String) -> Result<String, String> {
     {
         Ok(resp) => match resp.status() {
             reqwest::StatusCode::OK => return Ok(resp.text().await.unwrap()),
-            reqwest::StatusCode::UNAUTHORIZED => {
-                return Err(String::from("Unauthorized, refresh token?"))
-            }
-            _ => return Err(String::from("An error has occurred.")),
+            reqwest::StatusCode::UNAUTHORIZED => return Err("Unauthorized, refresh token?"),
+            _ => return Err("An error has occurred."),
         },
-        Err(_) => return Err(String::from("Unable to contact ChatGPT server.")),
+        Err(_) => return Err("Unable to contact ChatGPT server."),
     }
 }
 
