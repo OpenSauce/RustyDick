@@ -78,8 +78,9 @@ async fn call_chatgpt(query: &str) -> Result<String, &str> {
     let new_query = ChatGPTRequest {
         query: query.to_owned(),
     };
+
     match reqwest::Client::new()
-        .post("http://localhost:3000/")
+        .post(env::var("CHATGPT_URL").expect("No CHATGPT_URL"))
         .json(&new_query)
         .send()
         .await
@@ -87,7 +88,7 @@ async fn call_chatgpt(query: &str) -> Result<String, &str> {
         Ok(resp) => match resp.status() {
             reqwest::StatusCode::OK => return Ok(resp.text().await.unwrap()),
             reqwest::StatusCode::UNAUTHORIZED => return Err("Unauthorized, refresh token?"),
-            _ => return Err("An error has occurred."),
+            _ => return Err("An error has occurred"),
         },
         Err(_) => return Err("Unable to contact ChatGPT server."),
     }
@@ -96,18 +97,8 @@ async fn call_chatgpt(query: &str) -> Result<String, &str> {
 #[tokio::main]
 async fn main() {
     dotenv::dotenv().ok();
-    let key = "DISCORD_TOKEN";
 
-    let token;
-    match dotenv::var(key) {
-        Ok(v) => {
-            token = v;
-            println!("Hi {}", token)
-        }
-        Err(_e) => {
-            token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
-        }
-    };
+    let token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
 
     let http = Http::new(&token);
 

@@ -6,7 +6,7 @@ import parser from 'body-parser';
 import { startChatGPT, messageChatGPT } from './chatgpt.js';
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 app.use(parser.json())
 
@@ -20,10 +20,11 @@ app.post('/', (req, res) => {
         res.send(result);
     }).catch(err => {
         if (err.statusCode != null) {
+                    console.error(err)
             res.sendStatus(err.statusCode);
             return;
         }
-
+        console.error(err)
         res.sendStatus(500);
     });
 });
