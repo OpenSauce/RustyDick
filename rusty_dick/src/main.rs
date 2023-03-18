@@ -26,8 +26,7 @@ impl EventHandler for Handler {
             .await;
     }
 
-    async fn ready(&self, ctx: Context, ready: Ready) {
-        println!("{} is connected!", ready.user.name);
+    async fn ready(&self, ctx: Context, _ready: Ready) {
         ctx.set_activity(Activity::watching("Rusty Anime")).await;
     }
 }
@@ -40,11 +39,11 @@ struct General;
 async fn main() {
     dotenv::dotenv().ok();
 
-    let token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
+    let token = env::var("DISCORD_TOKEN").expect("No DISCORD_TOKEN environment variable");
 
     let http = Http::new(&token);
 
-    let (owners, _bot_id) = match http.get_current_application_info().await {
+    let (_owners, _bot_id) = match http.get_current_application_info().await {
         Ok(info) => {
             let mut owners = HashSet::new();
             owners.insert(info.owner.id);
@@ -55,27 +54,19 @@ async fn main() {
     };
 
     let framework = StandardFramework::new()
-        .configure(|c| c.prefix("!"))
+        .configure(|c| c.prefix("."))
         .group(&GENERAL_GROUP);
 
-    // Set gateway intents, which decides what events the bot will be notified about
     let intents = GatewayIntents::GUILD_MESSAGES
         | GatewayIntents::DIRECT_MESSAGES
         | GatewayIntents::MESSAGE_CONTENT;
 
-    // Create a new instance of the Client, logging in as a bot. This will
-    // automatically prepend your bot token with "Bot ", which is a requirement
-    // by Discord for bot users.
     let mut client = Client::builder(&token, intents)
         .framework(framework)
         .event_handler(Handler)
         .await
         .expect("Err creating client");
 
-    // Finally, start a single shard, and start listening to events.
-    //
-    // Shards will automatically attempt to reconnect, and will perform
-    // exponential backoff until it reconnects.
     if let Err(why) = client.start().await {
         println!("Client error: {:?}", why);
     }

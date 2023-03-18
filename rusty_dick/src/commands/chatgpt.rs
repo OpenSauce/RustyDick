@@ -13,7 +13,7 @@ struct ChatGPTRequest {
 }
 
 #[command]
-pub async fn chatgpt(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+pub async fn chatgpt(ctx: &Context, msg: &Message, mut _args: Args) -> CommandResult {
     msg.react(&ctx, '🔎').await.unwrap();
     let query = msg.content.split_at(9).1;
     match call_chatgpt(query).await {
