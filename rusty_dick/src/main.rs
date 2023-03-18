@@ -24,10 +24,6 @@ impl EventHandler for Handler {
     async fn message(&self, ctx: Context, msg: Message) {
         ctx.set_activity(Activity::watching(msg.to_owned().author.name))
             .await;
-
-        if !msg.content.starts_with(".") && !msg.content.starts_with("!") {
-            return;
-        }
     }
 
     async fn ready(&self, ctx: Context, ready: Ready) {
