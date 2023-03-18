@@ -1,6 +1,8 @@
 use std::collections::HashSet;
 use std::env;
 
+mod commands;
+
 use dotenv;
 use serde::{Deserialize, Serialize};
 use serenity::async_trait;
@@ -34,23 +36,15 @@ impl EventHandler for Handler {
                 Ok(response) => {
                     if response.len() >= 2000 {
                         let response = response.split_at(1999);
-                        if let Err(why) = msg.reply(&ctx, response.0).await {
-                            println!("Error sending message: {:?}", why);
-                        }
-                        if let Err(why) = msg.reply(&ctx, response.1).await {
-                            println!("Error sending message: {:?}", why);
-                        }
+                        send!(&ctx, msg, response.0);
+                        send!(&ctx, msg, response.1);
                     } else {
-                        if let Err(why) = msg.reply(&ctx, response).await {
-                            println!("Error sending message: {:?}", why);
-                        }
+                        send!(&ctx, msg, response);
                     }
                     msg.react(&ctx, '✅').await.unwrap();
                 }
                 Err(e) => {
-                    if let Err(why) = msg.channel_id.say(&ctx, e).await {
-                        println!("Error sending message: {:?}", why);
-                    }
+                    send!(&ctx, msg, e);
                     msg.react(&ctx, '❌').await.unwrap();
                 }
             };
@@ -60,9 +54,7 @@ impl EventHandler for Handler {
 
         match msg.content.as_str() {
             "!ping" => {
-                if let Err(why) = msg.channel_id.say(ctx, "Pong!").await {
-                    println!("Error sending message: {:?}", why);
-                }
+                send!(&ctx, msg, "Pong!");
             }
             _ => println!("Command not found"),
         }
