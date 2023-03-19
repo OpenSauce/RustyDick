@@ -1,3 +1,4 @@
+use anyhow::{anyhow, Result};
 use serde::{Deserialize, Serialize};
 use serenity::framework::standard::macros::command;
 use serenity::framework::standard::{Args, CommandResult};
@@ -36,7 +37,7 @@ pub async fn chatgpt(ctx: &Context, msg: &Message, mut _args: Args) -> CommandRe
     Ok(())
 }
 
-async fn call_chatgpt(query: &str) -> Result<String, &str> {
+async fn call_chatgpt(query: &str) -> Result<String> {
     let new_query = ChatGPTRequest {
         query: query.to_owned(),
     };
@@ -48,10 +49,10 @@ async fn call_chatgpt(query: &str) -> Result<String, &str> {
         .await
     {
         Ok(resp) => match resp.status() {
-            reqwest::StatusCode::OK => return Ok(resp.text().await.unwrap()),
-            reqwest::StatusCode::UNAUTHORIZED => return Err("Unauthorized, refresh token?"),
-            _ => return Err("An error has occurred"),
+            reqwest::StatusCode::OK => Ok(resp.text().await.unwrap()),
+            reqwest::StatusCode::UNAUTHORIZED => Err(anyhow!("Unauthorized, refresh token?")),
+            _ => Err(anyhow!("An error has occurred")),
         },
-        Err(_) => return Err("Unable to contact ChatGPT server."),
+        Err(_) => Err(anyhow!("Unable to contact ChatGPT server.")),
     }
 }

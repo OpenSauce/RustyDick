@@ -1,7 +1,5 @@
 mod commands;
 
-use dotenv;
-
 use std::collections::HashSet;
 use std::env;
 
@@ -16,6 +14,9 @@ use serenity::prelude::*;
 
 use crate::commands::chatgpt::*;
 use crate::commands::ping::*;
+use crate::commands::say::*;
+
+mod chain;
 
 struct Handler;
 
@@ -32,7 +33,7 @@ impl EventHandler for Handler {
 }
 
 #[group]
-#[commands(ping, chatgpt)]
+#[commands(ping, chatgpt, say)]
 struct General;
 
 #[tokio::main]
@@ -50,7 +51,7 @@ async fn main() {
 
             (owners, info.id)
         }
-        Err(e) => panic!("Could not retrieve bot information {}", e),
+        Err(e) => panic!("Could not retrieve bot information {e}"),
     };
 
     let framework = StandardFramework::new()
@@ -67,7 +68,9 @@ async fn main() {
         .await
         .expect("Err creating client");
 
+    chain::start();
+
     if let Err(why) = client.start().await {
-        println!("Client error: {:?}", why);
+        println!("Client error: {why:?}");
     }
 }
