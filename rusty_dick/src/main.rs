@@ -23,6 +23,7 @@ struct Handler;
 #[async_trait]
 impl EventHandler for Handler {
     async fn message(&self, ctx: Context, msg: Message) {
+        chain::feed(msg.content.as_str());
         ctx.set_activity(Activity::watching(msg.to_owned().author.name))
             .await;
     }
@@ -41,7 +42,6 @@ async fn main() {
     dotenv::dotenv().ok();
 
     let token = env::var("DISCORD_TOKEN").expect("No DISCORD_TOKEN environment variable");
-
     let http = Http::new(&token);
 
     let (_owners, _bot_id) = match http.get_current_application_info().await {

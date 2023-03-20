@@ -1,27 +1,30 @@
-use lazy_static::lazy_static;
-use std::sync::Mutex;
+use std::collections::HashMap;
+
+use std::sync::{Arc, Mutex};
 
 extern crate markov;
 
 use markov::Chain;
+use once_cell::sync::Lazy;
 
-lazy_static! {
-    static ref MARKOV: Mutex<Chain<String>> = Mutex::new(Chain::new());
-}
+static GLOBAL_DATA: Lazy<Arc<Mutex<Chain<String>>>> =
+    Lazy::new(|| Arc::new(Mutex::new(Chain::new())));
+
+static GLOBAL_MAP: Lazy<Arc<Mutex<HashMap<i32, String>>>> =
+    Lazy::new(|| Arc::new(Mutex::new(HashMap::new())));
+
 
 pub fn start() {
     println!("Started");
-    MARKOV
-        .lock()
-        .unwrap()
-        .feed_str("I like cats and I like dogs.");
+    GLOBAL_MAP.lock().unwrap().push(1);
+    println!("{}", GLOBAL_DATA.lock().unwrap().generate_str());
 }
 
 pub fn feed(sentence: &str) {
-    MARKOV.lock().unwrap().feed_str(sentence);
+    GLOBAL_DATA.lock().unwrap().feed_str(sentence);
 }
 
 pub fn generate() -> String {
-    println!("Generate");
-    return MARKOV.lock().unwrap().generate_str();
+    println!("called {}", TEST.lock().unwrap().len());
+    return String::from("Hi");
 }
