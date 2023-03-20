@@ -2,6 +2,7 @@ mod commands;
 
 use std::collections::HashSet;
 use std::env;
+use std::sync::Arc;
 
 use serenity::async_trait;
 use serenity::framework::standard::macros::group;
@@ -11,21 +12,39 @@ use serenity::model::channel::Message;
 use serenity::model::gateway::Activity;
 use serenity::model::gateway::Ready;
 use serenity::prelude::*;
+use tokio::sync::RwLock;
 
 use crate::commands::chatgpt::*;
 use crate::commands::ping::*;
 use crate::commands::say::*;
 
-mod chain;
+use markov::Chain;
+
+struct MarkovChainer;
+
+impl TypeMapKey for MarkovChainer {
+    type Value = Arc<RwLock<Chain<String>>>;
+}
 
 struct Handler;
 
 #[async_trait]
 impl EventHandler for Handler {
     async fn message(&self, ctx: Context, msg: Message) {
-        chain::feed(msg.content.as_str());
         ctx.set_activity(Activity::watching(msg.to_owned().author.name))
             .await;
+
+        if !msg.author.bot && !msg.content.starts_with(".") {
+            let chain = {
+                let data_read = ctx.data.write().await;
+                data_read
+                    .get::<MarkovChainer>()
+                    .expect("Expected Markov Chain in TypeMap.")
+                    .clone()
+            };
+            let mut chain = chain.write().await;
+            chain.feed_str(msg.content.as_str());
+        }
     }
 
     async fn ready(&self, ctx: Context, _ready: Ready) {
@@ -34,7 +53,7 @@ impl EventHandler for Handler {
 }
 
 #[group]
-#[commands(ping, chatgpt, say)]
+#[commands(ping, chatgpt, rsay)]
 struct General;
 
 #[tokio::main]
@@ -68,7 +87,10 @@ async fn main() {
         .await
         .expect("Err creating client");
 
-    chain::start();
+    {
+        let mut data = client.data.write().await;
+        data.insert::<MarkovChainer>(Arc::new(RwLock::new(Chain::new())))
+    }
 
     if let Err(why) = client.start().await {
         println!("Client error: {why:?}");
