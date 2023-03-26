@@ -16,3 +16,5 @@ rusty.log
 # Added by cargo
 
 /target
+
+/history/log.txt

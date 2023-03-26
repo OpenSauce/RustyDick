@@ -2,7 +2,10 @@ mod commands;
 
 use std::collections::HashSet;
 use std::env;
+use std::fs::File;
+use std::io::{self, BufRead, BufReader};
 use std::sync::Arc;
+use std::time::{Duration, Instant};
 
 use serenity::async_trait;
 use serenity::framework::standard::macros::group;
@@ -87,12 +90,32 @@ async fn main() {
         .await
         .expect("Err creating client");
 
+    let mut chain: Chain<String> = Chain::new();
+
+    let start = Instant::now();
+    let lines = read_lines("./history/log.txt".to_string());
+    for line in lines {
+        let line = line.unwrap();
+        chain.feed_str(line.as_str());
+    }
+
+    let duration = start.elapsed();
+
+    println!("Log consumption is: {:?}", duration);
+
     {
         let mut data = client.data.write().await;
-        data.insert::<MarkovChainer>(Arc::new(RwLock::new(Chain::new())))
+        data.insert::<MarkovChainer>(Arc::new(RwLock::new(chain)))
     }
 
     if let Err(why) = client.start().await {
         println!("Client error: {why:?}");
     }
+}
+
+fn read_lines(filename: String) -> io::Lines<BufReader<File>> {
+    // Open the file in read-only mode.
+    let file = File::open(filename).unwrap();
+    // Read the file line by line, and return an iterator of the lines of the file.
+    return io::BufReader::new(file).lines();
 }
