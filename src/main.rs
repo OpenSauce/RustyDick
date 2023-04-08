@@ -5,7 +5,7 @@ use std::env;
 use std::fs::File;
 use std::io::{self, BufRead, BufReader};
 use std::sync::Arc;
-use std::time::{Duration, Instant};
+use std::time::Instant;
 
 use serenity::async_trait;
 use serenity::framework::standard::macros::group;
@@ -17,7 +17,6 @@ use serenity::model::gateway::Ready;
 use serenity::prelude::*;
 use tokio::sync::RwLock;
 
-use crate::commands::chatgpt::*;
 use crate::commands::ping::*;
 use crate::commands::say::*;
 
@@ -37,7 +36,7 @@ impl EventHandler for Handler {
         ctx.set_activity(Activity::watching(msg.to_owned().author.name))
             .await;
 
-        if !msg.author.bot && !msg.content.starts_with(".") {
+        if !msg.author.bot && !msg.content.starts_with('.') {
             let chain = {
                 let data_read = ctx.data.write().await;
                 data_read
@@ -56,7 +55,7 @@ impl EventHandler for Handler {
 }
 
 #[group]
-#[commands(ping, chatgpt, rsay)]
+#[commands(ping, rsay)]
 struct General;
 
 #[tokio::main]
@@ -117,5 +116,5 @@ fn read_lines(filename: String) -> io::Lines<BufReader<File>> {
     // Open the file in read-only mode.
     let file = File::open(filename).unwrap();
     // Read the file line by line, and return an iterator of the lines of the file.
-    return io::BufReader::new(file).lines();
+    io::BufReader::new(file).lines()
 }

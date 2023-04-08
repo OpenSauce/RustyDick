@@ -1,2 +1,3 @@
-# RustyDick
-An Outrageous Discord Bot w/ ChatGPT.
+# Rusty Dick
+
+An outrageous Discord bot.
