@@ -7,6 +7,7 @@ use crate::{send, MarkovChainer};
 
 #[command]
 pub async fn rsay(ctx: &Context, msg: &Message, mut _args: Args) -> CommandResult {
+    let _ = msg.delete(ctx).await;
     let chain = {
         let data_read = ctx.data.read().await;
         data_read
