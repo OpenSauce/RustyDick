@@ -1,5 +1,8 @@
+build:
+	cargo build --release
+
 run:
-	nohup cargo run > rusty.log 2>&1 &
+	nohup cargo run --release > rusty.log 2>&1 &
 	echo $! > save_pid.txt
 
 stop:

@@ -3,7 +3,8 @@ use serenity::framework::standard::{Args, CommandResult};
 use serenity::model::prelude::*;
 use serenity::prelude::*;
 
-use crate::{send, MarkovChainer};
+use crate::send;
+use crate::util::markov::MarkovChainer;
 
 #[command]
 pub async fn rsay(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
@@ -13,7 +14,7 @@ pub async fn rsay(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult
         let data_read = ctx.data.read().await;
         data_read
             .get::<MarkovChainer>()
-            .expect("Expected MessageCount in TypeMap.")
+            .expect("Expected Marko in TypeMap.")
             .clone()
     };
     let chain = chain.read().await;
