@@ -1,9 +1,13 @@
-FROM rust:1.67
+FROM rust:1.67 AS build
 
 WORKDIR /app
 
-COPY ./ ./
+COPY . .
 
 RUN cargo build --release
 
-CMD ["./target/release/rusty_dick"]
+FROM debian:buster-slim AS app
+
+COPY --from=build /app/target/release/rusty_dick /
+
+CMD ["./rusty_dick"]
