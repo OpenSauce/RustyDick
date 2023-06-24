@@ -1,9 +1,6 @@
 use std::collections::HashSet;
 use std::env;
-use std::fs::File;
-use std::io::{self, BufRead, BufReader};
 use std::sync::Arc;
-use std::time::Instant;
 
 use markov::Chain;
 
@@ -11,18 +8,19 @@ use serenity::framework::standard::macros::group;
 use serenity::framework::StandardFramework;
 use serenity::http::Http;
 use serenity::prelude::*;
-use tokio::sync::RwLock;
 
 use crate::bot::events::Handler;
 use crate::commands::ping::*;
 use crate::commands::say::*;
-use crate::util::markov::MarkovChainer;
+use crate::util::markov::{load_markov_chain, MarkovChainer};
+use env_logger::Env;
 
 #[group]
 #[commands(ping, rsay)]
 struct General;
 
 pub async fn start() {
+    env_logger::Builder::from_env(Env::default().default_filter_or("error")).init();
     dotenv::dotenv().ok();
 
     let token = env::var("DISCORD_TOKEN").expect("No DISCORD_TOKEN environment variable");
@@ -52,18 +50,7 @@ pub async fn start() {
         .await
         .expect("Err creating client");
 
-    let mut chain: Chain<String> = Chain::new();
-
-    let start = Instant::now();
-    let lines = read_lines("./history/log.txt".to_string());
-    for line in lines {
-        let line = line.unwrap();
-        chain.feed_str(line.as_str());
-    }
-
-    let duration = start.elapsed();
-
-    println!("Log load time is: {:?}", duration);
+    let chain: Chain<String> = load_markov_chain();
 
     {
         let mut data = client.data.write().await;
@@ -73,11 +60,4 @@ pub async fn start() {
     if let Err(why) = client.start().await {
         println!("Client error: {why:?}");
     }
-}
-
-fn read_lines(filename: String) -> io::Lines<BufReader<File>> {
-    // Open the file in read-only mode.
-    let file = File::open(filename).unwrap();
-    // Read the file line by line, and return an iterator of the lines of the file.
-    io::BufReader::new(file).lines()
 }
