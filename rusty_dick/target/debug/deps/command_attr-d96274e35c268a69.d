@@ -1,0 +1,9 @@
+/Users/leighpeterlawley/Documents/Workspace/RustyDick/rusty_dick/target/debug/deps/libcommand_attr-d96274e35c268a69.dylib: /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/command_attr-0.4.1/src/lib.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/command_attr-0.4.1/src/attributes.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/command_attr-0.4.1/src/consts.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/command_attr-0.4.1/src/structures.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/command_attr-0.4.1/src/util.rs
+
+/Users/leighpeterlawley/Documents/Workspace/RustyDick/rusty_dick/target/debug/deps/command_attr-d96274e35c268a69.d: /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/command_attr-0.4.1/src/lib.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/command_attr-0.4.1/src/attributes.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/command_attr-0.4.1/src/consts.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/command_attr-0.4.1/src/structures.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/command_attr-0.4.1/src/util.rs
+
+/Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/command_attr-0.4.1/src/lib.rs:
+/Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/command_attr-0.4.1/src/attributes.rs:
+/Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/command_attr-0.4.1/src/consts.rs:
+/Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/command_attr-0.4.1/src/structures.rs:
+/Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/command_attr-0.4.1/src/util.rs:

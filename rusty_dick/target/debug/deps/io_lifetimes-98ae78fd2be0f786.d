@@ -1,0 +1,10 @@
+/Users/leighpeterlawley/Documents/Workspace/RustyDick/rusty_dick/target/debug/deps/io_lifetimes-98ae78fd2be0f786.rmeta: /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/lib.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/portability.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/traits.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/example_ffi.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/raw.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/views.rs
+
+/Users/leighpeterlawley/Documents/Workspace/RustyDick/rusty_dick/target/debug/deps/io_lifetimes-98ae78fd2be0f786.d: /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/lib.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/portability.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/traits.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/example_ffi.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/raw.rs /Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/views.rs
+
+/Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/lib.rs:
+/Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/portability.rs:
+/Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/traits.rs:
+/Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/example_ffi.rs:
+/Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/raw.rs:
+/Users/leighpeterlawley/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.9/src/views.rs:

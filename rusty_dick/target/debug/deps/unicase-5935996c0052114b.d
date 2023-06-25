@@ -1,0 +1,10 @@
+/Users/leighpeterlawley/Documents/Workspace/RustyDick/rusty_dick/target/debug/deps/unicase-5935996c0052114b.rmeta: /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicase-2.6.0/src/lib.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicase-2.6.0/src/ascii.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicase-2.6.0/src/unicode/mod.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicase-2.6.0/src/unicode/map.rs
+
+/Users/leighpeterlawley/Documents/Workspace/RustyDick/rusty_dick/target/debug/deps/libunicase-5935996c0052114b.rlib: /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicase-2.6.0/src/lib.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicase-2.6.0/src/ascii.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicase-2.6.0/src/unicode/mod.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicase-2.6.0/src/unicode/map.rs
+
+/Users/leighpeterlawley/Documents/Workspace/RustyDick/rusty_dick/target/debug/deps/unicase-5935996c0052114b.d: /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicase-2.6.0/src/lib.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicase-2.6.0/src/ascii.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicase-2.6.0/src/unicode/mod.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicase-2.6.0/src/unicode/map.rs
+
+/Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicase-2.6.0/src/lib.rs:
+/Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicase-2.6.0/src/ascii.rs:
+/Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicase-2.6.0/src/unicode/mod.rs:
+/Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicase-2.6.0/src/unicode/map.rs:

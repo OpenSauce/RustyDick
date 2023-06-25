@@ -1,0 +1,9 @@
+/Users/leighpeterlawley/Documents/Workspace/RustyDick/rusty_dick/target/debug/deps/libcommand_attr-bdb3d2c2ff961a08.dylib: /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/command_attr-0.4.1/src/lib.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/command_attr-0.4.1/src/attributes.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/command_attr-0.4.1/src/consts.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/command_attr-0.4.1/src/structures.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/command_attr-0.4.1/src/util.rs
+
+/Users/leighpeterlawley/Documents/Workspace/RustyDick/rusty_dick/target/debug/deps/command_attr-bdb3d2c2ff961a08.d: /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/command_attr-0.4.1/src/lib.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/command_attr-0.4.1/src/attributes.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/command_attr-0.4.1/src/consts.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/command_attr-0.4.1/src/structures.rs /Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/command_attr-0.4.1/src/util.rs
+
+/Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/command_attr-0.4.1/src/lib.rs:
+/Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/command_attr-0.4.1/src/attributes.rs:
+/Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/command_attr-0.4.1/src/consts.rs:
+/Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/command_attr-0.4.1/src/structures.rs:
+/Users/leighpeterlawley/.cargo/registry/src/index.crates.io-6f17d22bba15001f/command_attr-0.4.1/src/util.rs:

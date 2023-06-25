@@ -4,6 +4,7 @@ use std::sync::Arc;
 
 use markov::Chain;
 
+use anyhow::Result;
 use serenity::framework::standard::macros::group;
 use serenity::framework::StandardFramework;
 use serenity::http::Http;
@@ -19,7 +20,7 @@ use env_logger::Env;
 #[commands(ping, rsay)]
 struct General;
 
-pub async fn start() {
+pub async fn start() -> Result<()> {
     env_logger::Builder::from_env(Env::default().default_filter_or("error")).init();
     dotenv::dotenv().ok();
 
@@ -60,4 +61,6 @@ pub async fn start() {
     if let Err(why) = client.start().await {
         println!("Client error: {why:?}");
     }
+
+    Ok(())
 }

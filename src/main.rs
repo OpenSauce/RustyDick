@@ -1,10 +1,11 @@
+use anyhow::Result;
+use bot::core::start;
+
 mod bot;
 mod commands;
 mod util;
 
-use bot::core::start;
-
 #[tokio::main]
-async fn main() {
-    start().await;
+async fn main() -> Result<()> {
+    start().await
 }
