@@ -12,12 +12,13 @@ use serenity::prelude::*;
 
 use crate::bot::events::Handler;
 use crate::commands::ping::*;
+use crate::commands::roll::*;
 use crate::commands::say::*;
 use crate::util::markov::{load_markov_chain, MarkovChainer};
 use env_logger::Env;
 
 #[group]
-#[commands(ping, rsay)]
+#[commands(ping, rsay, rroll)]
 struct General;
 
 pub async fn start() -> Result<()> {
